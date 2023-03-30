@@ -1,6 +1,5 @@
 package ua.lviv.iot.algo.part1.lab1;
 
-import com.sun.net.httpserver.Filter;
 import lombok.*;
 
 @Getter
@@ -8,23 +7,33 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+abstract class Saw {
+    protected String brand;
+    protected double power;
+    protected double engineWorkDuration; // тривалість роботи двигуна в годинах
 
-public class Chainsaw {
-    private String brand;
-    private double power;
-    private double fuelTankCapacity;
-    private double fuelLevel;
-    private boolean isWorking;
+    protected boolean isWorking = false; // прапорець, який вказує про стан пилки, по замовчуванню - false
 
-
-    public static Chainsaw getInstance() {
-        if (instance == null) {
-            instance = new Chainsaw();
-        }
-        return instance;
+    public Saw(String brand, double power, double engineWorkDuration) {
     }
 
-    private static Chainsaw instance;
+    public abstract double getRemainingWorkTime();
+}
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
+class Chainsaw extends Saw {
+    private double fuelTankCapacity;
+    private double fuelLevel;
+
+    public Chainsaw(String brand, double power, double engineWorkDuration, double fuelTankCapacity, double fuelLevel) {
+        super(brand, power, engineWorkDuration);
+        this.fuelTankCapacity = fuelTankCapacity;
+        this.fuelLevel = fuelLevel;
+    }
 
     public void start() {
         isWorking = true;
@@ -44,20 +53,43 @@ public class Chainsaw {
         }
     }
 
-    public static void main(String[] args) {
-        Chainsaw[] chainsaws = new Chainsaw[4];
-        chainsaws[0] = new Chainsaw(); // конструктор за замовчуванням
-        chainsaws[1] = new Chainsaw("Stihl", 2000, 3, 2, true); // конструктор з параметрами
+    @Override
+    public double getRemainingWorkTime() {
+        return fuelLevel / (fuelTankCapacity / engineWorkDuration);
+    }
+}
 
-        chainsaws[2] = Chainsaw.getInstance(); // перший виклик getInstance()
-        chainsaws[3] = Chainsaw.getInstance(); // другий виклик getInstance()
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
+class ElectricSaw extends Saw {
+    private String motorType;
+    private double batteryCapacity;
 
-
-        for(int i = 0; i < chainsaws.length; i++) {
-
-
-            System.out.println(chainsaws[i].toString());
-        }
+    public ElectricSaw(String brand, double power, double engineWorkDuration, String motorType, double batteryCapacity) {
+        super(brand, power, engineWorkDuration);
+        this.motorType = motorType;
+        this.batteryCapacity = batteryCapacity;
     }
 
+    @Override
+    public double getRemainingWorkTime() {
+        return batteryCapacity / (power / engineWorkDuration);
+    }
+}
+
+class SawManager {
+    public static void main(String[] args) {
+        Saw[] saws = new Saw[3];
+        saws[0] = new Chainsaw("Stihl", 2000, 2, 3, 1.5);
+        saws[1] = new ElectricSaw("Makita", 1800, 1.5, "brushless", 1000);
+        saws[2] = new Chainsaw("Husqvarna", 2200, 3, 4, 3);
+
+        for (Saw saw : saws) {
+            System.out.println(saw.toString());
+            System.out.println("Remaining work time: " + saw.getRemainingWorkTime() + " hours");
+        }
+    }
 }
