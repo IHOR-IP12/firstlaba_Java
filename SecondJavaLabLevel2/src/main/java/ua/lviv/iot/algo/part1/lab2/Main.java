@@ -1,8 +1,9 @@
-package ua.lviv.iot.algo.part1.lab1;
+package ua.lviv.iot.algo.part1.lab2;
 
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ class Chainsaw extends Saw {
     private double fuelTankCapacity;
     private double fuelLevel;
 
-    public Chainsaw(String brand, double power, double engineWorkDuration, double fuelTankCapacity, double fuelLevel) {
+    public Chainsaw(String brand, double power, double engineWorkDuration, double fuelTankCapacity) {
         super(brand, power, engineWorkDuration);
         this.fuelTankCapacity = fuelTankCapacity;
         this.fuelLevel = fuelLevel;
@@ -91,7 +92,8 @@ abstract class SawManager<T extends Saw> {
     }
 
     public List<T> findAllWithPowerGreaterThan(double power) {
-        return sawList.stream().filter(s -> s.getPower() > power).collect(Collectors.toList());
+        List<T> collect = sawList.stream().filter(s -> s.getPower() > power).collect(Collectors.toList());
+        return collect;
     }
 
     public List<T> findAllChainsaws() {
@@ -133,44 +135,50 @@ class ElectricSawManager extends SawManager<ElectricSaw> {
         return sawList.stream().filter(s -> s.getRemainingWorkTime() > remainingWorkTime).collect(Collectors.toList());
     }
 
-    public Iterable<Object> getSawList() {
+    public List<ElectricSaw> getSawList() {
         return null;
     }
 }
-class Main {
+public class Main {
     public static void main(String[] args) {
+        List<ElectricSaw> allElectricSaws = new ArrayList<ElectricSaw>();
         ChainsawManager chainsawManager = new ChainsawManager();
-        chainsawManager.addSaw(new Chainsaw("Stihl", 2000, 500, 500, 250));
-        chainsawManager.addSaw(new Chainsaw("Husqvarna", 1800, 400, 400, 150));
-        chainsawManager.addSaw(new Chainsaw("Makita", 2200, 550, 600, 300));
-        chainsawManager.addSaw(new Chainsaw("Echo", 1600, 350, 300, 100));
-        chainsawManager.addSaw(new Chainsaw("Black & Decker", 1200, 250, 200, 50));
+        chainsawManager.addSaw(new Chainsaw("Stihl", 2000, 500, 500));
+        chainsawManager.addSaw(new Chainsaw("Husqvarna", 1800, 400, 400));
+        chainsawManager.addSaw(new Chainsaw("Makita", 2200, 550, 600));
+        chainsawManager.addSaw(new Chainsaw("Echo", 1600, 350, 300));
+        chainsawManager.addSaw(new Chainsaw("Black & Decker", 1200, 250, 200));
+        for (ElectricSaw electricSaw : allElectricSaws) {
+            ElectricSawManager electricSawManager = new ElectricSawManager();
+            electricSawManager.addSaw(new ElectricSaw("Bosch", 2000, 600, "Brushless", 1000));
+            electricSawManager.addSaw(new ElectricSaw("Dewalt", 1800, 550, "Brushless", 800));
+            electricSawManager.addSaw(new ElectricSaw("Makita", 2200, 700, "Brushed", 1200));
 
-        ElectricSawManager electricSawManager = new ElectricSawManager();
-        electricSawManager.addSaw(new ElectricSaw("Bosch", 2000, 600, "Brushless", 1000));
-        electricSawManager.addSaw(new ElectricSaw("Dewalt", 1800, 550, "Brushless", 800));
-        electricSawManager.addSaw(new ElectricSaw("Makita", 2200, 700, "Brushed", 1200));
-        electricSawManager.addSaw(new ElectricSaw("Ryobi", 1500, 400, "Brushless", 600));
-        electricSawManager.addSaw(new ElectricSaw("Milwaukee", 1700, 500, "Brushed", 900));
+            // Find all Chainsaws
+            System.out.println("All Chainsaws:");
+            List<Chainsaw> allChainsaws = (List<Chainsaw>) chainsawManager.getSawList();
+            for (Chainsaw saw : allChainsaws) {
+                System.out.println(saw.toString());
+            }
 
-        System.out.println("All chainsaws:");
-        for (Object o : chainsawManager.getSawList()) {
-            System.out.println(o);
+            // Find all Chainsaws with power greater than 1800
+            System.out.println("\nAll Chainsaws with power greater than 1800:");
+            List<Chainsaw> chainsawsWithPowerGreaterThan1800 = chainsawManager.findAllWithPowerGreaterThan(1800);
+            for (Chainsaw saw : chainsawsWithPowerGreaterThan1800) {
+                System.out.println(saw.toString());
+            }
+
+            // Find all Electric Saws
+            System.out.println("\nAll Electric Saws:");
+            allElectricSaws = electricSawManager.getSawList();
+            for (ElectricSaw saw : allElectricSaws) System.out.println(saw.toString());
+
+            // Find all Electric Saws with remaining work time greater than 2 hours
+            System.out.println("\nAll Electric Saws with remaining work time greater than 2 hours:");
+            List<ElectricSaw> electricSawsWithRemainingWorkTimeGreaterThan2 = electricSawManager.findAllWithRemainingWorkTimeGreaterThan(2);
+            for (ElectricSaw saw : electricSawsWithRemainingWorkTimeGreaterThan2) {
+                System.out.println(saw.toString());
+            }
         }
-
-        System.out.println("\nAll electric saws:");
-        electricSawManager.getSawList().forEach(System.out::println);
-
-        System.out.println("\nChainsaws with power greater than 1800W:");
-        chainsawManager.findAllWithPowerGreaterThan(1800).forEach(System.out::println);
-
-        System.out.println("\nElectric saws with remaining work time greater than 5 hours:");
-        electricSawManager.findAllWithRemainingWorkTimeGreaterThan(5).forEach(System.out::println);
-
-        System.out.println("\nChainsaws made by Makita:");
-        chainsawManager.findAllWithBrand("Makita").forEach(System.out::println);
-
-        System.out.println("\nElectric saws made by Bosch:");
-        electricSawManager.findAllWithBrand("Bosch").forEach(System.out::println);
-    }
+    }//
 }
