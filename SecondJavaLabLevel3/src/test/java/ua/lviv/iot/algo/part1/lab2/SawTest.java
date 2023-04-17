@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SawTest {
     @Test
     void testAllArgsConstructor() {
-        Chainsaw chainsaw = new Chainsaw("Husqvarna", 1200.0);
+        Chainsaw chainsaw = new Chainsaw("Husqvarna", 1200.0, 4.5);
         //assertEquals("null", chainsaw.getBrand());
         assertEquals(0.0, chainsaw.getPower(), 0.0001);
         assertEquals(0.0, chainsaw.getEngineWorkDuration(), 0.0001);

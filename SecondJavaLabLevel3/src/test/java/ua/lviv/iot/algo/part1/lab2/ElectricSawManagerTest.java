@@ -8,9 +8,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ElectricSawManagerTest {
-    private final ElectricSaw saw1 = new ElectricSaw("Makita", 1500, 3);
-    private final ElectricSaw saw2 = new ElectricSaw("DeWalt", 2000, 2.5);
-    private final ElectricSaw saw3 = new ElectricSaw("Bosch", 1800, 3.5);
+    private final ElectricSaw saw1 = new ElectricSaw("Makita", 1500, 3, "Brushless", 5);
+    private final ElectricSaw saw2 = new ElectricSaw("DeWalt", 2000, 2.5, "Brushed", 4);
+    private final ElectricSaw saw3 = new ElectricSaw("Bosch", 1800, 3.5, "Brushless", 6);
 
     private final ElectricSawManager manager = new ElectricSawManager();
 

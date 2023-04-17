@@ -1,69 +1,71 @@
 package ua.lviv.iot.algo.part1.lab2;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-public class SawManagerTest {
-
-    private SawManager<Saw> sawManager;
-
-    @BeforeEach
-    public void setUp() {
-        sawManager = new SawManager<>() {
-            @Override
-            public List<Saw> findAllWithBrand(String brand) {
-                return null;
-            }
-
-            @Override
-            public List<Saw> findAllWithRemainingWorkTimeGreaterThan(double remainingWorkTime) {
-                return null;
-            }
-        };
-    }
-
+class SawManagerTest {
+    SawManager<Saw> sawManager;
+@BeforeEach
+ void setup() {
+    sawManager = new SawManager<Saw>();
+}
     @Test
-    public void testAddSaw() {
-        Saw saw = new Chainsaw("Husqvarna", 1000, 60, 1000);
-        sawManager.addSaw(saw);
-        List<Saw> found = sawManager.findAllWithPowerGreaterThan(500);
-        assertEquals(0, found.size());
-        assertFalse(found.contains(saw));
-    }
+    void testFindAllWithPowerGreaterThan() {
 
-    @Test
-    public void testFindAllWithPowerGreaterThan() {
-        Saw saw1 = new Chainsaw("Stihl", 500, 60, 1000);
-        Saw saw2 = new Chainsaw("Husqvarna", 1000, 60, 1000);
-        Saw saw3 = new ElectricSaw("Dewalt", 1500, 30, "Brushless", 2000);
-        Saw saw4 = new ElectricSaw("Ryobi", 2000, 30, "Brushless", 3000);
+
+        Saw saw1 = new Chainsaw("Bosch", 5.0);
+        Saw saw2 = new Chainsaw("Dewalt", 9.0);
+        Saw saw3 = new Chainsaw("Makita", 5.0);
+
         sawManager.addSaw(saw1);
         sawManager.addSaw(saw2);
         sawManager.addSaw(saw3);
-        sawManager.addSaw(saw4);
-        List<Saw> found = sawManager.findAllWithPowerGreaterThan(1000);
-        assertEquals(0, found.size());
-        assertFalse(found.contains(saw3));
-        assertFalse(found.contains(saw4));
+
+        List<Saw> sawList = sawManager.findAllWithPowerGreaterThan(10.0);
+
+        assertEquals(0, sawList.size());
+        assertFalse(sawList.contains(saw1));
+        assertFalse(sawList.contains(saw2));
+        assertFalse(sawList.contains(saw3));
     }
 
     @Test
-    public void testFindAllChainsaws() {
-        Saw saw1 = new Chainsaw("Stihl", 500, 60, 1000);
-        Saw saw2 = new ElectricSaw("Dewalt", 1000, 30, "Brushless", 2000);
-        Saw saw3 = new Chainsaw("Husqvarna", 1500, 60, 1000);
-        Saw saw4 = new ElectricSaw("Ryobi", 2000, 30, "Brushless", 3000);
+    void testFindAllChainsaws() {
+        SawManager<Saw> sawManager = new SawManager<Saw>();
+
+        Saw saw1 = new Chainsaw("Bosch", 10.0);
+        Saw saw2 = new Chainsaw("Dewalt", 15.0);
+        Saw saw3 = new Chainsaw("Makita", 5.0);
+
         sawManager.addSaw(saw1);
         sawManager.addSaw(saw2);
         sawManager.addSaw(saw3);
-        sawManager.addSaw(saw4);
-        List<Saw> found = sawManager.findAllChainsaws();
-        assertEquals(2, found.size());
-        assertTrue(found.contains(saw1));
-        assertTrue(found.contains(saw3));
+
+        List<Chainsaw> chainsaws = sawManager.findAllChainsaws();
+
+        assertEquals(3, chainsaws.size());
+        assertTrue(chainsaws.contains(saw1));
+        assertTrue(chainsaws.contains(saw2));
+        assertTrue(chainsaws.contains(saw3));
+    }
+    @Test
+    void testFindAllWithRemainingWorkTimeGreaterThan() {
+        SawManager<Saw> sawManager = new SawManager<Saw>();
+
+        Saw saw1 = new Chainsaw("Bosch", 10.0);
+        Saw saw2 = new Chainsaw("Dewalt", 15.0);
+        Saw saw3 = new ElectricSaw("Makita", 8.0, 4.0);
+
+        sawManager.addSaw(saw1);
+        sawManager.addSaw(saw2);
+        sawManager.addSaw(saw3);
+
+        List<Saw> result = sawManager.findAllWithRemainingWorkTimeGreaterThan(3.0);
+
+        assertEquals(0, result.size());
+        assertFalse(result.contains(saw2));
+        assertFalse(result.contains(saw3));
     }
 }
+

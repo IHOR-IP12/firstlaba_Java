@@ -7,7 +7,7 @@ public class ChainsawTest {
 
     @Test
     void testChainsaw() {
-        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5);
+        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5, 60);
         assertFalse(chainsaw.isWorking());
 
         chainsaw.start();
@@ -25,7 +25,7 @@ public class ChainsawTest {
     }
     @Test
     void testFuelLevel() {
-        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5);
+        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5, 60);
         chainsaw.cutWood(50);
         assertEquals(0.0, chainsaw.getFuelLevel());
         chainsaw.cutWood(50);
@@ -36,13 +36,13 @@ public class ChainsawTest {
     @Test
     public void testFuelTankCapacity() {
         double expectedFuelTankCapacity = 2.0;
-        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5);
+        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5, 1.0);
         double actualFuelTankCapacity = chainsaw.getFuelTankCapacity();
         assertEquals(expectedFuelTankCapacity, actualFuelTankCapacity, 0.01);
     }
     @Test
     public void testStop() {
-        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5);
+        Chainsaw chainsaw = new Chainsaw("Stihl", 2.5, 1.0);
         chainsaw.start();
         assertTrue(chainsaw.isWorking());
         chainsaw.stop();
@@ -50,7 +50,7 @@ public class ChainsawTest {
     }
     @Test
     public void testGettersAndSetters() {
-        Chainsaw chainsaw = new Chainsaw("null", 2.5);
+        Chainsaw chainsaw = new Chainsaw("null", 2.5, 1.0);
         chainsaw.setBrand("Husqvarna");
         assertEquals("Husqvarna", chainsaw.getBrand());
 

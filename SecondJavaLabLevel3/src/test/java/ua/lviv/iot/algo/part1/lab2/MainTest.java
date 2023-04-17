@@ -8,11 +8,11 @@ public class MainTest {
     @Test
     public void testChainsawManager() {
         ChainsawManager chainsawManager = new ChainsawManager();
-        chainsawManager.addSaw(new Chainsaw("Stihl", 2000));
-        chainsawManager.addSaw(new Chainsaw("Husqvarna", 1800));
-        chainsawManager.addSaw(new Chainsaw("Makita", 2200));
-        chainsawManager.addSaw(new Chainsaw("Echo", 1600));
-        chainsawManager.addSaw(new Chainsaw("Black & Decker", 1200));
+        chainsawManager.addSaw(new Chainsaw("Stihl", 2000, 500));
+        chainsawManager.addSaw(new Chainsaw("Husqvarna", 1800, 400));
+        chainsawManager.addSaw(new Chainsaw("Makita", 2200, 550));
+        chainsawManager.addSaw(new Chainsaw("Echo", 1600, 350));
+        chainsawManager.addSaw(new Chainsaw("Black & Decker", 1200, 250));
 
         List<Chainsaw> allChainsaws = (List<Chainsaw>) chainsawManager.getSawList();
         assertEquals(5, allChainsaws.size());
@@ -24,9 +24,9 @@ public class MainTest {
     @Test
     public void testElectricSawManager() {
         ElectricSawManager electricSawManager = new ElectricSawManager();
-        electricSawManager.addSaw(new ElectricSaw("Bosch", 2000, 600));
-        electricSawManager.addSaw(new ElectricSaw("Dewalt", 1800, 550));
-        electricSawManager.addSaw(new ElectricSaw("Makita", 2200, 700));
+        electricSawManager.addSaw(new ElectricSaw("Bosch", 2000, 600, "Brushless", 1000));
+        electricSawManager.addSaw(new ElectricSaw("Dewalt", 1800, 550, "Brushless", 800));
+        electricSawManager.addSaw(new ElectricSaw("Makita", 2200, 700, "Brushed", 1200));
 
         List<ElectricSaw> allElectricSaws = electricSawManager.getSawList();
         assertEquals(3, allElectricSaws.size());

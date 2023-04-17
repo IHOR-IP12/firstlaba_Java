@@ -1,5 +1,6 @@
 package ua.lviv.iot.algo.part1.lab2;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static java.lang.Double.parseDouble;
@@ -26,7 +27,7 @@ class ElectricSawTest {
 
         @Test
         public void testGetRemainingWorkTime() {
-            ElectricSaw saw = new ElectricSaw("BrandA", 1500, 5);
+            ElectricSaw saw = new ElectricSaw("BrandA", 1500, 5, "Brushless", 30);
             double expectedRemainingTime = 30 / (1500 / 5);
             double fiftin;
             assertEquals(parseDouble("fiftin"), saw.getRemainingWorkTime(), 0.01);

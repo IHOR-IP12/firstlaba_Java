@@ -12,18 +12,18 @@ public class ChainsawElectricSawTest {
     @Before
     public void setUp() {
         chainsawManager = new ChainsawManager();
-        chainsawManager.addSaw(new Chainsaw("Stihl", 2000));
-        chainsawManager.addSaw(new Chainsaw("Husqvarna", 1800));
-        chainsawManager.addSaw(new Chainsaw("Makita", 2200));
-        chainsawManager.addSaw(new Chainsaw("Echo", 1600));
-        chainsawManager.addSaw(new Chainsaw("Black & Decker", 1200));
+        chainsawManager.addSaw(new Chainsaw("Stihl", 2000, 500));
+        chainsawManager.addSaw(new Chainsaw("Husqvarna", 1800, 400));
+        chainsawManager.addSaw(new Chainsaw("Makita", 2200, 550));
+        chainsawManager.addSaw(new Chainsaw("Echo", 1600, 350));
+        chainsawManager.addSaw(new Chainsaw("Black & Decker", 1200, 250));
 
         electricSawManager = new ElectricSawManager();
-        electricSawManager.addSaw(new ElectricSaw("Bosch", 2000, 600));
-        electricSawManager.addSaw(new ElectricSaw("Dewalt", 1800, 550));
-        electricSawManager.addSaw(new ElectricSaw("Makita", 2200, 700));
-        electricSawManager.addSaw(new ElectricSaw("Ryobi", 1500, 400));
-        electricSawManager.addSaw(new ElectricSaw("Milwaukee", 1700, 500));
+        electricSawManager.addSaw(new ElectricSaw("Bosch", 2000, 600, "Brushless", 1000));
+        electricSawManager.addSaw(new ElectricSaw("Dewalt", 1800, 550, "Brushless", 800));
+        electricSawManager.addSaw(new ElectricSaw("Makita", 2200, 700, "Brushed", 1200));
+        electricSawManager.addSaw(new ElectricSaw("Ryobi", 1500, 400, "Brushless", 600));
+        electricSawManager.addSaw(new ElectricSaw("Milwaukee", 1700, 500, "Brushed", 900));
     }
 
     @Test
