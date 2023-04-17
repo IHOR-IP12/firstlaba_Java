@@ -196,7 +196,8 @@ class ChainsawManager extends SawManager<Chainsaw> {
 
     @Override
     public List<Chainsaw> findAllWithBrand(String brand) {
-        return sawList.stream().filter(s -> s.getBrand().equals(brand)).collect(Collectors.toList());
+        List<Chainsaw> collect = sawList.stream().filter(s -> s.getBrand().equals(brand)).collect(Collectors.toList());
+        return collect;
     }
 
     @Override
@@ -269,3 +270,5 @@ public class Main {
         }
     }
 }
+
+//good morning
